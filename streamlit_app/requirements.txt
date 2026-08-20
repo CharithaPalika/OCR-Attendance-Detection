@@ -1,6 +1,14 @@
+# Python dependencies for the attendance-sheet extractor.
+# Streamlit Community Cloud picks this up automatically (entrypoint directory).
+#
+# NOTE: Tesseract itself is a system binary, not a Python package. It is
+# installed from packages.txt in the REPOSITORY ROOT, which is the only
+# location Community Cloud scans for apt packages.
+
 streamlit>=1.49
-pymupdf>=1.24
-opencv-python-headless>=4.9
+pymupdf>=1.24          # imported as `fitz`
+opencv-python-headless>=4.10,<5     # 4.x cv2 API; 5.x is untested against this pipeline
 numpy>=1.26
 pandas>=2.0
 pytesseract>=0.3.10
+pillow>=10.0           # pulled in by pytesseract; pinned explicitly

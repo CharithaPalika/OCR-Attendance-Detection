@@ -10,7 +10,7 @@ annotated PDF back.
 | `app.py` | Streamlit UI |
 | `attendance_core.py` | the extraction pipeline, UI-free and importable |
 | `requirements.txt` | Python packages |
-| `packages.txt` | system packages, for Streamlit Community Cloud |
+| `../packages.txt` | system packages (Tesseract), **must live in the repo root** |
 | `test_app.py` | headless end-to-end test |
 
 ## Run locally
@@ -31,9 +31,17 @@ if it is missing.
 
 ## Deploy to Streamlit Community Cloud
 
-Push this folder to GitHub and point Streamlit Cloud at `app.py`. `packages.txt`
-installs Tesseract on the container — without it the app starts but every OCR
-call fails.
+Push the **whole repository** to GitHub and point Streamlit Cloud at
+`streamlit_app/app.py`.
+
+Community Cloud resolves the two dependency files from different places:
+
+- `requirements.txt` — searched for in the entrypoint's directory first, then
+  the repo root, so `streamlit_app/requirements.txt` is found.
+- `packages.txt` — detected **only in the repo root**. It therefore sits at the
+  top level, next to `streamlit_app/`. It installs Tesseract on the container;
+  without it the app stops on startup with the "Tesseract is not installed"
+  error.
 
 Uploads are capped at 200 MB by default. To raise it, add `.streamlit/config.toml`:
 
